@@ -22,6 +22,7 @@ func NewURL(original string, user *entity.User) (URL, error) {
 		return URL{}, ErrInvalidURL
 	}
 	shortened := &entity.Shortened{
+		ID:           uuid.New(),
 		OriginalURL:  original,
 		ShortenedURL: "",
 	}
