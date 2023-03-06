@@ -4,7 +4,7 @@ PostgresDB:
   Port: 5432
   User: postgres
   Password: postgres
-  DBName: banana
+  DBName: urls
 RedisDB:
   Host: localhost
   Port: 6379

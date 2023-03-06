@@ -1,6 +1,6 @@
 package config
 
-type posgres struct {
+type Posgres struct {
 	Host     string `mapstructure:"Host"`
 	Port     string `mapstructure:"Port"`
 	DBName   string `mapstructure:"DBName"`

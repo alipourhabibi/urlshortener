@@ -1,6 +1,6 @@
 package config
 
-type redis struct {
+type Redis struct {
 	Host     string `mapstructure:"Host"`
 	Port     string `mapstructure:"Port"`
 	Password string `mapstructure:"Password"`

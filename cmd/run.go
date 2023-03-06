@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/alipourhabibi/urlshortener/config"
+	handlers "github.com/alipourhabibi/urlshortener/internal/handlers/urlhdl"
 	"github.com/spf13/cobra"
 )
 
@@ -30,5 +31,5 @@ var runCMD = &cobra.Command{
 }
 
 func runCmdE(cmd *cobra.Command, args []string) error {
-	return nil
+	return handlers.Launch()
 }

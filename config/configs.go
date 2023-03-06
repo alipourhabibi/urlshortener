@@ -11,8 +11,8 @@ var Confs = Config{}
 
 type Config struct {
 	Port       string  `mapstructure:"Port"`
-	PostgresDB posgres `mapstructure:"PostgresDB"`
-	Redis      redis   `mapstructure:"RedisDB"`
+	PostgresDB Posgres `mapstructure:"PostgresDB"`
+	Redis      Redis   `mapstructure:"RedisDB"`
 }
 
 func (g *Config) Load(path string) error {
