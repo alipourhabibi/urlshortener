@@ -17,6 +17,13 @@ type URL struct {
 	user      *entity.User
 }
 
+func NewURLEmpty() *URL {
+	return &URL{
+		shortened: &entity.Shortened{},
+		user:      &entity.User{},
+	}
+}
+
 func NewURL(original string, user *entity.User) (URL, error) {
 	if original == "" {
 		return URL{}, ErrInvalidURL

@@ -23,11 +23,11 @@ func NewFromURL(u aggregate.URL) PostgresURL {
 
 // ToAggregate - converts to aggregate.URL
 func (p PostgresURL) ToAggregate() aggregate.URL {
-	u := aggregate.URL{}
+	u := aggregate.NewURLEmpty()
 
 	u.SetID(p.ID)
 	u.SetOriginal(p.Original)
 	u.SetShortened(p.Shortened)
 
-	return u
+	return *u
 }

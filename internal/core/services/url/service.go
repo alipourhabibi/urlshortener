@@ -3,19 +3,24 @@ package url
 import (
 	"crypto/md5"
 	"encoding/base64"
+	"errors"
 	"fmt"
+	"time"
 
 	"github.com/alipourhabibi/urlshortener/config"
 	aggregate "github.com/alipourhabibi/urlshortener/internal/core/aggergate"
 	"github.com/alipourhabibi/urlshortener/internal/core/entity"
 	"github.com/alipourhabibi/urlshortener/internal/core/ports"
 	postgresdb "github.com/alipourhabibi/urlshortener/internal/repository/postgres"
+	redisdb "github.com/alipourhabibi/urlshortener/internal/repository/redis"
+	"github.com/go-redis/redis"
 )
 
 type UrlConfiguration func(*UrlService) error
 
 type UrlService struct {
-	urlRepository ports.URLRepository
+	urlRepository   ports.URLRepository
+	cacheRepository ports.CacheRepository
 }
 
 func New(cfgs ...UrlConfiguration) (*UrlService, error) {
@@ -38,6 +43,17 @@ func WithPostgresURLRepository(config config.Posgres) UrlConfiguration {
 			return err
 		}
 		us.urlRepository = client
+		return nil
+	}
+}
+
+func WithRedisCacheRepository(config config.Redis) UrlConfiguration {
+	return func(us *UrlService) error {
+		client, err := redisdb.New(config)
+		if err != nil {
+			return err
+		}
+		us.cacheRepository = client
 		return nil
 	}
 }
@@ -77,9 +93,31 @@ func (s *UrlService) Add(original string, user *entity.User) (string, error) {
 		return "", err
 	}
 	url.SetShortened(shortened)
+	_, err = s.cacheRepository.Set(shortened, original, 2*time.Minute)
+	if err != nil {
+		return "", err
+	}
 	return s.urlRepository.Add(url)
 }
 
 func (s *UrlService) Get(shortened string) (aggregate.URL, error) {
-	return s.urlRepository.Get(shortened)
+	original, err := s.cacheRepository.Get(shortened)
+	if err != nil && !errors.Is(err, redis.Nil) {
+		return aggregate.URL{}, err
+	}
+	if !errors.Is(err, redis.Nil) {
+		au := aggregate.NewURLEmpty()
+		au.SetOriginal(original.(string))
+		au.SetShortened(shortened)
+		return *au, nil
+	}
+	url, err := s.urlRepository.Get(shortened)
+	if err != nil {
+		return aggregate.URL{}, err
+	}
+	_, err = s.cacheRepository.Set(shortened, url.GetOriginal(), 2*time.Minute)
+	if err != nil {
+		return aggregate.URL{}, err
+	}
+	return url, nil
 }

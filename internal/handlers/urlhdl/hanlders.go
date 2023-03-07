@@ -7,7 +7,7 @@ import (
 )
 
 func Launch() error {
-	urlService, err := url.New(url.WithPostgresURLRepository(config.Confs.PostgresDB))
+	urlService, err := url.New(url.WithPostgresURLRepository(config.Confs.PostgresDB), url.WithRedisCacheRepository(config.Confs.Redis))
 	if err != nil {
 		return err
 	}

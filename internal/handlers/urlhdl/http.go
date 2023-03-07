@@ -42,7 +42,7 @@ func (hdl *UrlHttpHandler) Get(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"msg":      "OK",
-		"original": u.GetShortened(),
+		"original": u.GetOriginal(),
 	})
 }
 func (hdl *UrlHttpHandler) Add(c *gin.Context) {
