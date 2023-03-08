@@ -3,7 +3,9 @@ Here is an outline for designing a backend service for a URL shortener using Go 
 
 ## How to run
 ```sh
+$ go test ./...
 $ go build -o shortener .
+$ ./shortener migrate -- --config CONFIGFILE.yaml
 $ ./shortener run -- --config CONFIGFILE.yaml
 ```
 docker:
