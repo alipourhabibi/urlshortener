@@ -45,6 +45,26 @@ func (hdl *UrlHttpHandler) Get(c *gin.Context) {
 		"original": u.GetOriginal(),
 	})
 }
+
+func (hdl *UrlHttpHandler) Redirect(c *gin.Context) {
+	url := c.Param("url")
+	if url == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"msg": ErrBadRequest.Error(),
+		})
+		return
+	}
+	u, err := hdl.urlHandler.Get(url)
+	if err != nil {
+		log.Printf("\nInternal Server Error %s\n", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"msg": ErrInternalServerError.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusFound, u.GetOriginal())
+}
+
 func (hdl *UrlHttpHandler) Add(c *gin.Context) {
 	payload := struct {
 		Url string `json:"url" binding:"required"`

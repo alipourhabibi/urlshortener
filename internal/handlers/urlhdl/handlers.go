@@ -28,6 +28,7 @@ func Launch() error {
 
 	r := gin.Default()
 	r.GET("api/v1/url/:url", urlHandler.Get)
+	r.GET(":url", urlHandler.Redirect)
 	r.POST("api/v1/url", authorizationService.Middleware(), urlHandler.Add)
 
 	r.POST("api/v1/register/", authHandler.Register)
