@@ -3,8 +3,10 @@ module github.com/alipourhabibi/urlshortener
 go 1.20
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/google/uuid v1.1.2
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.15.0

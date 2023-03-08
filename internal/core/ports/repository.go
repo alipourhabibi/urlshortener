@@ -4,6 +4,7 @@ import (
 	"time"
 
 	aggregate "github.com/alipourhabibi/urlshortener/internal/core/aggergate"
+	"github.com/alipourhabibi/urlshortener/internal/core/entity"
 )
 
 type URLRepository interface {
@@ -15,4 +16,10 @@ type URLRepository interface {
 type CacheRepository interface {
 	Set(string, interface{}, time.Duration) (interface{}, error)
 	Get(string) (interface{}, error)
+}
+
+type AuthenticationRepository interface {
+	Add(entity.User) error
+	Exists(string) (bool, error)
+	Get(string) (entity.User, error)
 }

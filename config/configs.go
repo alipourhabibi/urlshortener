@@ -13,6 +13,8 @@ type Config struct {
 	Port       string  `mapstructure:"Port"`
 	PostgresDB Posgres `mapstructure:"PostgresDB"`
 	Redis      Redis   `mapstructure:"RedisDB"`
+	RedisJWT   Redis   `mapstructure:"RedisJWT"`
+	Auth       Auth    `mapstructure:"Auth"`
 }
 
 func (g *Config) Load(path string) error {

@@ -1,4 +1,7 @@
 Port: 5050
+Auth:
+  JWTAccessToken: ACEESS
+  JWTRefreshToken: REFRESH
 PostgresDB:
   Host: localhost
   Port: 5432
@@ -9,3 +12,7 @@ RedisDB:
   Host: localhost
   Port: 6379
   DBName: 0
+RedisJWT:
+  Host: localhost
+  Port: 6379
+  DBName: 1

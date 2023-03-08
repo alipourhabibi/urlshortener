@@ -14,17 +14,15 @@ var (
 
 type URL struct {
 	shortened *entity.Shortened
-	user      *entity.User
 }
 
 func NewURLEmpty() *URL {
 	return &URL{
 		shortened: &entity.Shortened{},
-		user:      &entity.User{},
 	}
 }
 
-func NewURL(original string, user *entity.User) (URL, error) {
+func NewURL(original string) (URL, error) {
 	if original == "" {
 		return URL{}, ErrInvalidURL
 	}
@@ -35,7 +33,6 @@ func NewURL(original string, user *entity.User) (URL, error) {
 	}
 	return URL{
 		shortened: shortened,
-		user:      user,
 	}, nil
 }
 

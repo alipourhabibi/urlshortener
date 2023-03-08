@@ -88,7 +88,7 @@ func (s *UrlService) Add(original string, user *entity.User) (string, error) {
 		}
 	}
 
-	url, err := aggregate.NewURL(original, user)
+	url, err := aggregate.NewURL(original)
 	if err != nil {
 		return "", err
 	}

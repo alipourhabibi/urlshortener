@@ -6,6 +6,7 @@ import (
 	"github.com/alipourhabibi/urlshortener/config"
 	aggregate "github.com/alipourhabibi/urlshortener/internal/core/aggergate"
 	urldomain "github.com/alipourhabibi/urlshortener/internal/core/domain/url"
+	"github.com/alipourhabibi/urlshortener/internal/core/entity"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -58,6 +59,11 @@ func (p *PostgresRepository) Exists(shotened string) (bool, error) {
 func (p *PostgresRepository) MigrateAll() error {
 	fmt.Printf("Migrating PostgresURL\n")
 	err := p.db.AutoMigrate(&urldomain.PostgresURL{})
+	if err != nil {
+		return err
+	}
+	fmt.Printf("Migrating User Entity\n")
+	err = p.db.AutoMigrate(&entity.User{})
 	if err != nil {
 		return err
 	}
