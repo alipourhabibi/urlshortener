@@ -3,6 +3,7 @@ package urlhdl
 import (
 	"github.com/alipourhabibi/urlshortener/config"
 	"github.com/alipourhabibi/urlshortener/internal/core/services/authentication"
+	"github.com/alipourhabibi/urlshortener/internal/core/services/authorization"
 	"github.com/alipourhabibi/urlshortener/internal/core/services/url"
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +13,12 @@ func Launch() error {
 	if err != nil {
 		return err
 	}
-	authenticationService, err := authentication.New(authentication.WithJWTService(config.Confs.RedisJWT), authentication.WithAuthRepository(config.Confs.PostgresDB))
+	jwtService := authentication.WithJWTService(config.Confs.RedisJWT)
+	authenticationService, err := authentication.New(jwtService, authentication.WithAuthRepository(config.Confs.PostgresDB))
+	if err != nil {
+		return err
+	}
+	authorizationService, err := authorization.New(authorization.WithRedisCacheRepository(config.Confs.RedisJWT))
 	if err != nil {
 		return err
 	}
@@ -22,7 +28,7 @@ func Launch() error {
 
 	r := gin.Default()
 	r.GET("api/v1/url/:url", urlHandler.Get)
-	r.POST("api/v1/url", urlHandler.Add)
+	r.POST("api/v1/url", authorizationService.Middleware(), urlHandler.Add)
 
 	r.POST("api/v1/register/", authHandler.Register)
 	r.POST("api/v1/login", authHandler.LogIn)

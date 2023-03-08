@@ -74,7 +74,7 @@ func (as *AuthenticationService) Register(username, pass string) (*entity.TokenD
 	if err != nil {
 		return nil, err
 	}
-	return as.authorizationService.CreateTokensAndMetaData(user.ID)
+	return as.authorizationService.CreateTokensAndMetaData(user.Username)
 }
 
 func (as *AuthenticationService) LogIn(username, pass string) (*entity.TokenDetails, error) {
@@ -86,5 +86,5 @@ func (as *AuthenticationService) LogIn(username, pass string) (*entity.TokenDeta
 	if err != nil {
 		return nil, messages.ErrUnauthorized
 	}
-	return as.authorizationService.CreateTokensAndMetaData(user.ID)
+	return as.authorizationService.CreateTokensAndMetaData(user.Username)
 }

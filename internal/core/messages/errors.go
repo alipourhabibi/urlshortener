@@ -7,4 +7,5 @@ var (
 	ErrInternalServerError = fmt.Errorf("Internal Server Error")
 	ErrUnauthorized        = fmt.Errorf("Unauthorized")
 	ErrAlreadyExists       = fmt.Errorf("Already Exists")
+	ErrBadRequest          = fmt.Errorf("Bad Request")
 )

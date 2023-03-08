@@ -4,7 +4,6 @@ import (
 	aggregate "github.com/alipourhabibi/urlshortener/internal/core/aggergate"
 	"github.com/alipourhabibi/urlshortener/internal/core/entity"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/google/uuid"
 )
 
 type URLService interface {
@@ -18,6 +17,6 @@ type AuthenticationService interface {
 }
 
 type AuthorizationService interface {
-	CreateTokensAndMetaData(uuid.UUID) (*entity.TokenDetails, error)
+	CreateTokensAndMetaData(string) (*entity.TokenDetails, error)
 	VerifyToken(string, string) (*jwt.Token, error)
 }
