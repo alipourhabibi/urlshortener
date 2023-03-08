@@ -15,7 +15,7 @@ var runCMD = &cobra.Command{
 	Short: "Run the application",
 	Long:  "Run the application",
 	PreRunE: func(cmd *cobra.Command, args []string) error {
-		cmd.Flags().String("config", "config/local_config.yaml", "config file path")
+		cmd.Flags().String("config", "config/prod_config.yaml", "config file path")
 		err := cmd.ParseFlags(args)
 		if err != nil {
 			return err

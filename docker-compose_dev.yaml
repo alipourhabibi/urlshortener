@@ -27,24 +27,6 @@ services:
     ports:
       - "6379:6379"
         
-  base:
-    container_name: base
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: urlshortener:latest
-    restart: on-failure
-    networks:
-      - urlshortener
-    depends_on:
-      - "postgres"
-      - "redis"
-    links:
-      - "postgres"
-      - "redis"
-    ports:
-      - "5050:5050"
-
 networks:
   urlshortener:
     driver: bridge

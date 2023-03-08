@@ -9,7 +9,10 @@ $ ./shortener run -- --config CONFIGFILE.yaml
 docker:
 ```sh
 $ docker-compose up
+$ docker exec -it base sh
+$ ./shortener migrate
 ```
+and you are ready to go
 
 ## Featurs:
 - Postgres for saving urls
@@ -17,3 +20,4 @@ $ docker-compose up
 - Docker and Docker compose
 - Hexagon Architecture
 - DDD Principles
+- Tests

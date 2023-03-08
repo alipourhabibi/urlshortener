@@ -1,0 +1,18 @@
+Port: 5050
+Auth:
+  JWTAccessToken: ACEESS
+  JWTRefreshToken: REFRESH
+PostgresDB:
+  Host: postgres_url
+  Port: 5432
+  User: postgres
+  Password: postgres
+  DBName: urls
+RedisDB:
+  Host: redis_url
+  Port: 6379
+  DBName: 0
+RedisJWT:
+  Host: redis_url
+  Port: 6379
+  DBName: 1

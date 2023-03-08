@@ -15,7 +15,7 @@ var migrateCMD = &cobra.Command{
 	Short: "Migrate all models",
 	Long:  "Migrate all models",
 	PreRunE: func(cmd *cobra.Command, args []string) error {
-		cmd.Flags().String("config", "config/local_config.yaml", "config file path")
+		cmd.Flags().String("config", "config/prod_config.yaml", "config file path")
 		err := cmd.ParseFlags(args)
 		if err != nil {
 			return err

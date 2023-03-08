@@ -6,6 +6,7 @@ import (
 	"github.com/alipourhabibi/urlshortener/internal/core/messages"
 	"github.com/alipourhabibi/urlshortener/internal/core/ports"
 	"github.com/alipourhabibi/urlshortener/internal/core/services/authorization"
+	"github.com/alipourhabibi/urlshortener/internal/repository/memory"
 	"github.com/alipourhabibi/urlshortener/internal/repository/postgres"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -31,6 +32,14 @@ func New(cfgs ...AuthenticationConfiguration) (*AuthenticationService, error) {
 	return ac, nil
 }
 
+func WithAuthMemoryRepository() AuthenticationConfiguration {
+	return func(as *AuthenticationService) error {
+		client := memory.NewMemUser()
+		as.authRepository = client
+		return nil
+	}
+}
+
 func WithAuthRepository(config config.Posgres) AuthenticationConfiguration {
 	return func(as *AuthenticationService) error {
 		client, err := postgres.NewAuthRepository(config)
@@ -54,6 +63,9 @@ func WithJWTService(redis config.Redis) AuthenticationConfiguration {
 }
 
 func (as *AuthenticationService) Register(username, pass string) (*entity.TokenDetails, error) {
+	if username == "" || pass == "" {
+		return nil, messages.ErrBadRequest
+	}
 	exists, err := as.authRepository.Exists(username)
 	if err != nil {
 		return nil, err
