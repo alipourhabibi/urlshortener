@@ -61,7 +61,7 @@ func WithRedisCacheRepository(config config.Redis) UrlConfiguration {
 func (s *UrlService) generateShoretend(original string, i, j uint) (string, error) {
 	sum := md5.Sum([]byte(original))
 	sumString := fmt.Sprintf("%s", sum)
-	encoded := base64.StdEncoding.EncodeToString([]byte(sumString))
+	encoded := base64.URLEncoding.EncodeToString([]byte(sumString))
 
 	return encoded[i:j], nil
 }
